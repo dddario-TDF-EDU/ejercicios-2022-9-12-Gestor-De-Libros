@@ -1,4 +1,4 @@
-class Autor {
+export class Autor {
     protected nombre: string;
     protected apellido: string;
     protected anioNacimiento: number;
