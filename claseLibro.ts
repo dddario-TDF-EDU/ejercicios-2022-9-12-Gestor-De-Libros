@@ -15,4 +15,49 @@ export class Libro {
         this.editorial = auxEditorial;
     }
 
+    public getISBN(): number {
+        return this.ISBN
+    }
+
+    public getAutor(): string {
+        return this.autor;
+    }
+
+    public setAutor(nuevoAutor: string) {
+        this.autor = nuevoAutor;
+    }
+    
+    public getTitulo(): string {
+        return this.titulo;
+    }
+
+    public setTitulo(nuevoTitulo: string) {
+        this.titulo = nuevoTitulo;
+    }
+
+    public getAnioPublicacion(): number {
+        return this.anioPublicacion;
+    }
+    
+    public setAnioPublicacion(nuevoAnio: number) {
+        this.anioPublicacion = nuevoAnio;
+    }
+
+    public getCategoria(): string {
+        return this.categoria;
+    }
+
+    public setCategoria(nuevaCategoria : string) {
+        this.categoria = nuevaCategoria;
+    }
+
+    public getEditorial(): string {
+        return this.editorial;
+    }
+
+    public SetEditorial(nuevaEditorial : string) {
+        this.editorial = nuevaEditorial;
+    }
+   
+
 }
