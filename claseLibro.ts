@@ -55,9 +55,7 @@ export class Libro {
         return this.editorial;
     }
 
-    public SetEditorial(nuevaEditorial : string) {
+    public setEditorial(nuevaEditorial : string) {
         this.editorial = nuevaEditorial;
     }
-   
-
 }
