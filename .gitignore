@@ -1,2 +1,8 @@
 *json
 /node_modules
+*pruebaTxt.ts
+*pruebaTxt.js
+*pruebaCSV.ts
+*pruebaCSV.js
+*libros.csv
+*libros.txt

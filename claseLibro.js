@@ -40,7 +40,7 @@ var Libro = /** @class */ (function () {
     Libro.prototype.getEditorial = function () {
         return this.editorial;
     };
-    Libro.prototype.SetEditorial = function (nuevaEditorial) {
+    Libro.prototype.setEditorial = function (nuevaEditorial) {
         this.editorial = nuevaEditorial;
     };
     return Libro;

@@ -10,6 +10,11 @@ class GestorLibros {
     protected baseDeLibros: Libro[];
     protected baseDeAutores: Autor[];
 
+    constructor(auxLibros : Libro[], auxAutores: Autor[]) {
+        this.baseDeAutores = auxAutores;
+        this.baseDeLibros = auxLibros;
+    }
+
     public busquedaGeneral() {
         console.log("-------------");
         console.log("Bienvenido al menu de busqueda general"); 
@@ -151,3 +156,5 @@ class GestorLibros {
     }
 }
 
+let coleccionLibros : Libro[] = new Array();
+//let libroA : Libro = new Libro(0, )
