@@ -20,14 +20,15 @@ class GestorLibros {
     public busquedaGeneral() {
         console.log("-------------");
         console.log("Bienvenido al menu de busqueda general"); 
-        console.log("¿que metodo desea utilizar para realizar su busqueda?")
+        console.log("¿que metodo desea utilizar para realizar?")
         let readlineSync = require('readline-sync');
-        let opcionIngresada = readlineSync.question("Ingrese el numero indicado para realizar la opcion deseada.");
-        console.log("-------------");
-        let opcionCorrecta = false;
         console.log("1 _ realizar busqueda del libro por titulo ");
         console.log("2 _ realizar busqueda del libro por ISBN");
         console.log("3 _ ingresar nuevo libro");
+        let opcionIngresada = Number(readlineSync.question("Ingrese el numero indicado para realizar la opcion deseada. "));
+        console.log("-------------");
+        let opcionCorrecta = false;
+        
 
         switch (opcionIngresada) {
             case 1: {
@@ -53,30 +54,41 @@ class GestorLibros {
         }
     }
 
-    private busquedaLibroPorTitulo(nombreLibro: string) {
+    private busquedaLibroPorTitulo(nombreLibro: string): void {
+        let encontrado = false;
         for (let index = 0; index < this.baseDeLibros.length; index++) {
-            if (this.baseDeLibros[index].getTitulo() === nombreLibro){
+            //añado el .toUpperCase para que a la hora de buscar no importe si hay diferencia de mayusculas o minusculas
+            if (this.baseDeLibros[index].getTitulo().toUpperCase() === nombreLibro.toUpperCase()){
                 this.menuOpciones(index);
+                encontrado = true;
                 break;
             }
-            
+        }
+        if (encontrado === false){
+            console.log("libro no encontrado");
         }
     }
 
-    private busquedaLibroPorISBN(auxISBN : number) {
+    private busquedaLibroPorISBN(auxISBN : number): void {
+        let encontrado = false;
         for (let index = 0; index < this.baseDeLibros.length; index++) {
-            if (this.baseDeLibros[index].getISBN() === auxISBN){
+            //no entiendo porq si ambos son number con triple igual no funciona el if, si o si en necesaria la funcion Number 
+            if (this.baseDeLibros[index].getISBN() === Number(auxISBN)){
                 this.menuOpciones(index);
+                encontrado = true;
                 break;
             }
-            
+        }
+        if (encontrado === false){
+            console.log("libro no encontrado");
         }
     }
 
     private validarISBN(paramISBN : number): boolean {
         let ISBNrepetido = false;
         for (let i = 0; i < this.baseDeLibros.length; i++) {
-            if (paramISBN === this.baseDeLibros[i].getISBN()) {
+            //no entiendo porq si ambos son number con triple igual no funciona el if, si o si en necesaria la funcion Number
+            if (Number(paramISBN) === this.baseDeLibros[i].getISBN()) {
                 ISBNrepetido = true;
                 return ISBNrepetido;
             }
@@ -86,24 +98,21 @@ class GestorLibros {
 
     private ingresarLibro() {
         let readlineSync = require('readline-sync');
-        let auxISBN : number = readlineSync.question("Ingrese el ISBN del libro");
+        let auxISBN : number = readlineSync.question("Ingrese el ISBN del libro ");
         if (this.validarISBN(auxISBN) === true) {
             console.log("ISBN repetido, verifique el numero ingresado");
         } else {
-            let auxTitulo: string = readlineSync.question("Ingrese el titulo del libro");
-            let auxAutor: string = readlineSync.question("Ingrese el autor del libro");
-            let auxAnio: number = readlineSync.question("Ingrese el año de publicación del libro");
-            let auxCategoria: string = readlineSync.question("Ingrese la categoria del libro");
-            let auxEditorial: string = readlineSync.question("Ingrese la editorial del libro");
+            let auxTitulo: string = readlineSync.question("Ingrese el titulo del libro ");
+            let auxAutor: string = readlineSync.question("Ingrese el autor del libro ");
+            let auxAnio: number = readlineSync.question("Ingrese el año de publicación del libro ");
+            let auxCategoria: string = readlineSync.question("Ingrese la categoria del libro ");
+            let auxEditorial: string = readlineSync.question("Ingrese la editorial del libro ");
             let nuevoLibro : Libro = new Libro(auxISBN, auxTitulo, auxAutor, auxAnio, auxCategoria, auxEditorial);
             //ya creado el libro lo agrego al array
             this.baseDeLibros.push(nuevoLibro);
             console.log("libro ingresado")
         }
-    }
-
-    private eliminarLibro(indiceArray : number) {
-        
+        this.busquedaGeneral();
     }
 
     private menuOpciones(indiceArray : number) {
@@ -120,17 +129,19 @@ class GestorLibros {
         console.log("7 _ obtener la categoria del libro ");
         console.log("8 _ cambiar la categoria del libro ");
         console.log("9 _ obtener el año de publicacion");
-        console.log("10_ cambiar el año de publicion del libro");
-        console.log("11_ eliminar libro de la lista");
+        console.log("10 _ cambiar el año de publicion del libro");
+        console.log("11 _ eliminar libro de la lista");
+        console.log("12 _ SALIR");
         console.log("-------------");
         //
-        let readlineSync = require('readline-sync');
-        let opcionIngresada = readlineSync.question("Ingrese el numero indicado para realizar la opcion deseada.");
-        this.opcionesSwitch(indiceArray, opcionIngresada);
+        this.opcionesSwitch(indiceArray);
 
     }
 
-    private opcionesSwitch(indiceArray: number, opcionIngresada: number) {
+    private opcionesSwitch(indiceArray: number) {
+        let readlineSync = require('readline-sync');
+        let opcionIngresada = Number(readlineSync.question("Ingrese el numero indicado para realizar la opcion deseada. "));
+        //si no llamo la funcion Number no funciona el switch WTF, pero si declaro la variable tipo number tampoco funciona
         switch (opcionIngresada) {
             case 1: {
                 console.log("El nombre del autor es: " + this.baseDeLibros[indiceArray].getAutor());
@@ -194,15 +205,33 @@ class GestorLibros {
 
             case 11: {
                 this.baseDeLibros.splice(indiceArray,1);
+                console.log("Archivo eliminado.")
+                this.busquedaGeneral();
+                break;
+            }
+
+            case 12: {
+                break;
             }
 
             default : {
                 console.log("Al parecer se equivoco de numero, intentelo nuevamente.");
+                this.opcionesSwitch(indiceArray);
             }
 
         }
     }
 }
 
-let coleccionLibros : Libro[] = new Array();
-//let libroA : Libro = new Libro(0, )
+//creacion de variables
+let libroA : Libro = new Libro (0,"El patito","Pazos Ariel",1999,"Fantasia","Frutas");
+let libroB : Libro = new Libro (2,"El Principe","Maquiavelo",1999,"Politica","Politik");
+let coleccionLibros : Libro[] = [libroA,libroB];
+let autorA : Autor = new Autor ("Ariel","Pazos");
+let autorB : Autor = new Autor ("Nicolas","Maquiavelo");
+let coleccionAutores :Autor[] = [autorA,autorB];
+let biblioteca : GestorLibros = new GestorLibros(coleccionLibros,coleccionAutores);
+//llamado a funcion.
+biblioteca.busquedaGeneral();
+
+
